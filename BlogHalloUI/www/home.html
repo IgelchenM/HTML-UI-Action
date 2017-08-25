@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <head>
-    <title>Beispiel User App</title>
+	<title>Beispiel User App</title>
 	<meta charset="utf-8" />
 	<script src="/apps/api/jquery.min.js"></script>
-	</head>
-	<body>
-        
-    <script>
-    $(function(){
-        $('#commandButton.case1').off('click').on('click', function(){
-            Client.sendEvent('commandButton', {command: 'sayHello'});
-        });
-        
-        $('#commandButton.case2').off('click').on('click', function(){
-            Client.sendEvent('commandButton', {command: 'sayBye'});
-        });
-    });
-    </script>
-    
-    <button id="commandButton" class="case1"> Begrüßen! </button>
-    <button id="commandButton" class="case2"> Verabschieden! </button>
-    </body>
+</head>
+<body>
+	<button id="commandButton" class="case1"> Begrüßen! </button>
+	<button id="commandButton" class="case2"> Verabschieden! </button>
+</body>
+<script>
+	$(function(){
+		$('#commandButton.case1').off('click').on('click', function(){
+			Client.sendEvent('commandButton', {command: 'sayHello'});
+		});
+
+		$('#commandButton.case2').off('click').on('click', function(){
+			Client.sendEvent('commandButton', {command: 'sayBye'});
+		});
+	});
+</script>
 </html>
