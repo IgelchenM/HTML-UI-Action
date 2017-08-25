@@ -1,35 +1,17 @@
 App.onAppStart = function(){
-    db                      = KnuddelsServer.getPersistence(),
-    logger                  = KnuddelsServer.getDefaultLogger(),
-    userAccess              = KnuddelsServer.getUserAccess(),
-    channel                 = KnuddelsServer.getChannel(),
-    channelConfiguration    = channel.getChannelConfiguration(),
-    channelRights           = channelConfiguration.getChannelRights(),
-    channelmoderatoren      = channelRights.getChannelModerators(),
-    channelDesign           = channel.getChannelDesign(),
-    channelname             = channel.getRootChannelName(),
-    pfad                    = KnuddelsServer.getFullImagePath(''),
+    bot                 = KnuddelsServer.getDefaultBotUser(), // BotUser definieren
+    humanOnlineUsers    = KnuddelsServer.getChannel().getOnlineUsers(UserType.Human); // Alle User aus dem Channel laden
     
-    backgroundColor         = channelDesign.getBackgroundColor(),
-    defaultFontColor        = channelDesign.getDefaultFontColor(),
-    bot                     = KnuddelsServer.getDefaultBotUser(),
-    testSystem              = KnuddelsServer.getChatServerInfo().isTestSystem();
-    
-    var humanOnlineUsers = KnuddelsServer.getChannel().getOnlineUsers(UserType.Human);
+    /* Als nächstes werden alle User im Channel ein HTML-UI erhalten */
     for(i in humanOnlineUsers){
-        if(humanOnlineUsers[i].isAppDeveloper() || humanOnlineUsers[i].isAppManager()){
-            var user = humanOnlineUsers[i];
-            var uPers = user.getPersistence();
-            
-            var DATEN = {testsystem: testSystem, background: {R: backgroundColor.getRed(), G: backgroundColor.getGreen(), B: backgroundColor.getBlue()}};
+        if(humanOnlineUsers[i].isAppDeveloper() || humanOnlineUsers[i].isAppManager()){ // Aber nur, wenn sie der AppEntwickler oder AppManager der App sind
+            var user = humanOnlineUsers[i]; // Laden des aktuellen Users
+            var DATEN = {}; // Daten, die wir übergeben wollen - in diesem Falle keine.
             var htmlFileEdit = new HTMLFile('home.html', DATEN);
             appContentEdit = AppContent.popupContent(htmlFileEdit, 300, 50);
             if(user.canSendAppContent(appContentEdit)===true){
                 user.sendAppContent(appContentEdit);
             }
-            appContentEdit.addCloseListener(function(user, appContent){
-                user._removeNicklistIconById('playIcon');
-            });
         }
     }
 }
