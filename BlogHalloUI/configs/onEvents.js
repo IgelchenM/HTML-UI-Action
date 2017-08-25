@@ -11,8 +11,5 @@ App.onEventReceived = function(user, key, data)
             break;
         }
         break;
-        default:
-            logger.warn(key);
-        break;
     }
 };
